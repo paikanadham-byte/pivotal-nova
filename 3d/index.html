@@ -834,6 +834,15 @@ function init() {
     renderer.render(scene, camera);
     if (frameHasContent()) document.body.classList.add('gl-on');
   } else {
+    /* Paint the first frame NOW, synchronously. The live loop below is
+       rAF-driven, and a backgrounded or throttled tab can starve rAF
+       entirely - the scene must still be able to appear (and verify)
+       immediately, before the loop ever gets a turn. */
+    applyChoreo(0);
+    try {
+      renderer.render(scene, camera);
+      if (frameHasContent()) { glOn = true; document.body.classList.add('gl-on'); }
+    } catch (firstFrameErr) { /* the loop's own guards keep the fallback if this fails */ }
     tick();
   }
 }
