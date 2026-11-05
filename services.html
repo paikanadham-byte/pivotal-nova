@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Websites, Web Apps & Mobile Apps | Pivotal Nova</title>
+<meta name="description" content="What Pivotal Nova builds: websites, web apps and mobile apps for brands of every type, plus admin dashboards, automations, integrations and SEO/AEO/GEO. Build-first — you only pay if you like the first version.">
+<meta property="og:title" content="Services | Pivotal Nova">
+<meta property="og:description" content="Websites, web apps, mobile apps, dashboards, automations, integrations and visibility — built first, paid for only if you love it.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F4F1EA; --paper:#FBF9F3; --ground2:#ECE7DA;
+  --ink:#14100B; --ink2:#2A2115;
+  --muted:#6F6656; --line:#D9D2C2;
+  --accent:#E4571D; --accent-d:#C24312;
+  --panel:#171209; --on-dark:#EFE7D6; --on-dark-mut:#B9AC93;
+  --r:6px; --max:1180px;
+  --fd:"Sora",Arial,sans-serif; --fb:"Archivo",Helvetica,Arial,sans-serif; --fm:"IBM Plex Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--ink);font-family:var(--fb);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit}
+svg{display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--fm);font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.55rem}
+.eyebrow .burst{width:13px;height:13px}
+h1,h2,h3{font-family:var(--fd);line-height:1.04;font-weight:800;letter-spacing:-.015em}
+.burst{fill:var(--accent);flex:none}
+.btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--accent);color:#fff;font-weight:700;font-size:.95rem;padding:1rem 1.7rem;border-radius:var(--r);text-decoration:none;border:2px solid var(--accent);transition:background .25s,transform .25s}
+.btn:hover{background:var(--accent-d);border-color:var(--accent-d);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+header.site{position:sticky;top:0;z-index:50;background:rgba(244,241,234,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:1.2rem}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--fd);font-weight:800;font-size:1.32rem;letter-spacing:-.01em}
+.logo .burst{width:30px;height:30px;transition:transform .6s cubic-bezier(.2,.9,.3,1.4)}
+.logo:hover .burst{transform:rotate(45deg)}
+.logo em{font-style:normal;color:var(--accent)}
+.nav nav{display:flex;gap:1.9rem}
+.nav nav a{text-decoration:none;font-family:var(--fm);font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.3rem 0;position:relative}
+.nav nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .3s}
+.nav nav a:hover::after{width:100%}
+.nav nav a[aria-current="page"]{color:var(--accent)}
+.nav nav a[aria-current="page"]::after{width:100%}
+.nav .mail{font-family:var(--fm);font-size:.82rem;text-decoration:none;border-bottom:1px solid var(--accent)}
+.nav .btn{padding:.62rem 1.15rem}
+@media(max-width:1020px){.nav .mail{display:none}}
+@media(max-width:820px){.nav nav{display:none}}
+
+.page-head{padding:4.4rem 0 3.2rem;border-bottom:1px solid var(--line)}
+.page-head h1{font-size:clamp(2.5rem,5.6vw,4.2rem);max-width:15ch;margin-top:.8rem}
+.page-head h1 em{font-style:normal;color:var(--accent)}
+.page-head p{color:var(--ink2);font-size:1.15rem;max-width:56ch;margin-top:1.1rem}
+
+section{padding:4.6rem 0}
+
+/* deep service sections: sticky label left, content right */
+.deep{display:grid;grid-template-columns:300px 1fr;gap:3rem;padding:3.6rem 0;border-bottom:1px solid var(--line)}
+.deep:first-of-type{padding-top:1rem}
+.deep .side{position:sticky;top:110px;align-self:start}
+.deep .side .ref{font-family:var(--fm);font-size:.85rem;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:.5rem}
+.deep .side .ref .burst{width:13px;height:13px}
+.deep .side h2{font-size:clamp(1.9rem,3.4vw,2.6rem);margin:.6rem 0 .6rem}
+.deep .side p{color:var(--muted);font-size:.98rem}
+.deep .body p.lede{font-size:1.12rem;color:var(--ink2);max-width:58ch}
+.deep h3.sub{font-family:var(--fm);font-size:.75rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin:2rem 0 1rem;display:flex;align-items:center;gap:.55rem}
+.deep h3.sub .burst{width:12px;height:12px}
+.incl{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 2.4rem;list-style:none}
+.incl li{display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.99rem}
+.incl li .burst{width:13px;height:13px;margin-top:.42rem}
+.ship{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.6rem}
+.ship span{font-family:var(--fm);font-size:.78rem;border:1px solid var(--ink);border-radius:999px;padding:.45rem .95rem}
+@media(max-width:900px){.deep{grid-template-columns:1fr;gap:1.2rem}.deep .side{position:static}}
+@media(max-width:640px){.incl{grid-template-columns:1fr}}
+
+/* capabilities */
+.caps{background:var(--ground2);border-block:1px solid var(--line)}
+.cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cap{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1.7rem}
+.cap:nth-child(2){transform:translateY(18px)}
+.cap:nth-child(4){transform:translateY(18px)}
+.cap .ref{font-family:var(--fm);font-size:.78rem;font-weight:600;color:var(--accent)}
+.cap h3{font-size:1.35rem;margin:.55rem 0 .45rem}
+.cap p{color:var(--muted);font-size:.97rem}
+@media(max-width:760px){.cap-grid{grid-template-columns:1fr}.cap:nth-child(2),.cap:nth-child(4){transform:none}}
+
+/* FAQ */
+.faq{border-top:2px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1.4rem;padding:1.35rem .3rem;font-family:var(--fd);font-weight:700;font-size:1.15rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{font-family:var(--fm);color:var(--accent);font-size:1.3rem;transition:transform .3s;flex:none}
+.faq details[open ] summary .pl{transform:rotate(45deg)}
+.faq details .a{padding:0 .3rem 1.5rem;color:var(--ink2);max-width:62ch}
+.faq summary:hover{color:var(--accent-d)}
+
+.closing{background:var(--panel);color:var(--on-dark)}
+.closing .wrap{display:flex;justify-content:space-between;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.closing h2{font-size:clamp(2.1rem,4.8vw,3.4rem);max-width:16ch}
+.closing h2 em{font-style:normal;color:var(--accent)}
+.closing p{color:var(--on-dark-mut);margin-top:.8rem}
+
+footer.site{background:var(--ink);color:var(--on-dark);padding:3.8rem 0 2.2rem}
+footer.site .fname{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,7.4vw,5rem);line-height:.98;letter-spacing:-.02em;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+footer.site .fname .burst{width:.62em;height:.62em}
+footer.site .fname em{font-style:normal;color:var(--accent)}
+footer.site .cols{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem;margin-top:2.4rem;padding-top:1.8rem;border-top:1px solid #3A2F1E}
+footer.site h4{font-family:var(--fm);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+footer.site ul{list-style:none}
+footer.site li{margin:.45rem 0}
+footer.site a{text-decoration:none;color:var(--on-dark)}
+footer.site a:hover{color:var(--accent)}
+footer.site p,footer.site li{color:var(--on-dark-mut);font-size:.95rem}
+footer.site .row{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:1.3rem;border-top:1px solid #3A2F1E;font-family:var(--fm);font-size:.78rem;color:var(--on-dark-mut)}
+@media(max-width:760px){footer.site .cols{grid-template-columns:1fr}}
+
+.rv{opacity:0;transform:rotate(-1.4deg) translateY(16px);transform-origin:left bottom;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.9,.3,1.15)}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="logo" href="index.html" aria-label="Pivotal Nova — home">
+      <svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg>
+      Pivotal <em>Nova</em>
+    </a>
+    <nav aria-label="Main">
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="mail" href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a>
+    <a class="btn" href="contact.html">Start a Project</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Services</p>
+      <h1>Everything your brand needs to <em>run online.</em></h1>
+      <p>Three core crafts, plus the systems behind them. Every engagement runs build-first: a working first version before any payment, refinements after your review, launch when you say go.</p>
+    </div>
+  </div>
+
+  <section style="padding-top:2.4rem">
+    <div class="wrap">
+
+      <div class="deep" id="websites">
+        <div class="side rv">
+          <p class="ref"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> PN—01</p>
+          <h2>Websites</h2>
+          <p>For brands whose website has to do more than exist — it has to bring in work.</p>
+        </div>
+        <div class="body rv">
+          <p class="lede">A website built around one job: turning the right visitors into enquiries, bookings and orders. Designed for your brand — never a template with your logo dropped in — and fast on the phones your customers actually use.</p>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> What's included</h3>
+          <ul class="incl">
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Up to 5 pages: home, services, work, about, contact</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Booking, quote or enquiry forms that reach you instantly</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Copy shaped around your customers' real questions</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> SEO, AEO &amp; GEO setup from day one</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Hosting set up and handed over to you</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Designed for mobile first, because that's where your customers are</li>
+          </ul>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> How it ships</h3>
+          <div class="ship"><span>First version built free</span><span>You review the real site</span><span>Refinements included</span><span>Live on your domain</span></div>
+        </div>
+      </div>
+
+      <div class="deep" id="webapps">
+        <div class="side rv">
+          <p class="ref"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> PN—02</p>
+          <h2>Web Apps</h2>
+          <p>For brands outgrowing spreadsheets, inboxes and borrowed tools.</p>
+        </div>
+        <div class="body rv">
+          <p class="lede">Software that runs in the browser and runs your operation with it: the system your team opens every morning, and the one your customers book, order and track through.</p>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> What's included</h3>
+          <ul class="incl">
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Admin dashboards built around your business, not a generic panel</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Booking, scheduling and customer accounts</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Payments, invoicing and order flows</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Automations that remove the repetitive work</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Secure logins and a database that grows with you</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Built to extend — new features bolt on cleanly</li>
+          </ul>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> How it ships</h3>
+          <div class="ship"><span>Working first build</span><span>Your team can test it</span><span>Refined on real use</span><span>Handed over with training</span></div>
+        </div>
+      </div>
+
+      <div class="deep" id="mobile">
+        <div class="side rv">
+          <p class="ref"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> PN—03</p>
+          <h2>Mobile Apps</h2>
+          <p>For brands whose customers live on their phones — most of them, now.</p>
+        </div>
+        <div class="body rv">
+          <p class="lede">An app puts your brand on the home screen: one tap to reorder, rebook or check in. We build for iOS and Android together, connected to the same systems as your website.</p>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> What's included</h3>
+          <ul class="incl">
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> iOS and Android from one build</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Ordering, booking and loyalty built in</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Push notifications that bring customers back</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Connected to your website and dashboard</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> App Store and Google Play submission handled</li>
+            <li><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Updates and new features as you grow</li>
+          </ul>
+          <h3 class="sub"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> How it ships</h3>
+          <div class="ship"><span>Testable first build</span><span>Try it on your own phone</span><span>Refined on your feedback</span><span>Submitted to both stores</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUPPORTING CAPABILITIES -->
+  <section class="caps">
+    <div class="wrap">
+      <div class="sec-head rv" style="margin-bottom:2.6rem">
+        <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Behind every build</p>
+        <h2 style="font-size:clamp(2rem,4.2vw,3.1rem);margin-top:.7rem">The systems that make it pay</h2>
+      </div>
+      <div class="cap-grid rv">
+        <div class="cap"><p class="ref">CAP—01</p><h3>Admin dashboards</h3><p>A control room shaped around your business: bookings, orders, customers, content — see and manage everything in one place, from any device.</p></div>
+        <div class="cap"><p class="ref">CAP—02</p><h3>Automations</h3><p>Confirmations, reminders, follow-ups and reports that send themselves. The repetitive work disappears; you just see it done.</p></div>
+        <div class="cap"><p class="ref">CAP—03</p><h3>Integrations</h3><p>Payments, appointments and bookings, delivery, maps, email and the tools you already use — connected so nothing is typed twice.</p></div>
+        <div class="cap"><p class="ref">CAP—04</p><h3>SEO · AEO · GEO</h3><p>Built to be found: on Google, in local results, and in the answers AI assistants give. Structured, fast and written the way people actually search.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head rv" style="margin-bottom:2.4rem">
+        <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Straight answers</p>
+        <h2 style="font-size:clamp(2rem,4.2vw,3.1rem);margin-top:.7rem">Asked before every project</h2>
+      </div>
+      <div class="faq rv">
+        <details>
+          <summary>How does build-first actually work?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">We start with a short discover call, then build a working first version of your website or app — real pages, your content, your brand. You review it and ask for changes. Only if you want to go ahead do you pay. If it is not for you, you walk away at no cost. The risk sits with us, not you.</div>
+        </details>
+        <details>
+          <summary>What does it cost?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">Every project is priced individually, based on its scope — and you see the exact price after reviewing your first build, before you commit to anything. There are no package prices on this page because a five-page website and a booking platform are not the same job. What we promise is this: you never pay for something you haven't seen working.</div>
+        </details>
+        <details>
+          <summary>What do you need from me to start?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">One short call and the basics of your brand — what you sell, who you sell it to, and anything you already have (a logo, photos, an old site). We handle design, build, hosting setup and the technical side from there.</div>
+        </details>
+        <details>
+          <summary>Can you rebuild the website or app I already have?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">Yes — and it works the same way. We build the new version first, alongside your existing one, so you compare the real thing against what you have now before deciding anything.</div>
+        </details>
+        <details>
+          <summary>Where are you based? What if I'm in another country?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">Pivotal Nova is remote-first and works with brands across the UK, Canada and the US — and worldwide beyond that. Updates land in writing, calls are arranged around your time zone, and you always review real builds, never slide decks.</div>
+        </details>
+        <details>
+          <summary>What happens after launch?<span class="pl" aria-hidden="true">+</span></summary>
+          <div class="a">Your site or app goes live on your own domain and accounts, your dashboard is handed over, and the SEO, AEO and GEO setup is in place. From there we stay available for refinements, new features and growth work — nothing is locked in with us.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="closing">
+    <div class="wrap">
+      <div>
+        <h2>See your first build <em>before you spend a penny.</em></h2>
+        <p>That's the offer. The next step is a short call.</p>
+      </div>
+      <a class="btn" href="contact.html">Start a Project</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="fname"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Pivotal <em>Nova</em></p>
+    <div class="cols">
+      <div>
+        <h4>The studio</h4>
+        <p>A software development studio building websites, web apps and mobile apps for brands of every type — build first, pay only if you love it.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="about.html">About &amp; Process</a></li>
+          <li><a href="contact.html">Start a Project</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a></li>
+          <li>Remote-first studio</li>
+          <li>UK · Canada · US · Worldwide</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <span>© <span class="yr">2026</span> Pivotal Nova</span>
+      <span>Websites · Web Apps · Mobile Apps</span>
+      <span>Built first. Paid for only if you love it.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.yr').forEach(function(el){el.textContent=new Date().getFullYear();});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
