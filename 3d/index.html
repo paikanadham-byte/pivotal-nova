@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pivotal Nova 3D — Websites, Web Apps &amp; Mobile Apps for Brands That Want More</title>
+<meta name="description" content="Pivotal Nova is a software studio building websites, web apps and mobile apps for brands of every type. Build-first: we build your first version, you review it, and you only pay if you like it.">
+<meta property="og:title" content="Pivotal Nova — Software Studio">
+<meta property="og:description" content="Websites, web apps and mobile apps, built first — you only pay if you love them.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Pivotal Nova","email":"paikanadham@gmail.com","description":"Software development studio building websites, web apps and mobile apps for brands of every type, with a build-first model: the first version is built before any payment.","areaServed":["United Kingdom","Canada","United States","Worldwide"],"knowsAbout":["Website development","Web applications","Mobile apps","Admin dashboards","Automations","Integrations","SEO","AEO","GEO"]}
+</script>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+<style>
+:root{
+  --ground:#14100B; --ground2:#0E0B06; --panel:#1B1409; --panel2:#1D160C;
+  --paper:#F4F1EA; --on-dark:#EFE7D6; --muted:#B9AC93; --stone:#6F6656;
+  --accent:#E4571D; --accent-d:#C24312; --accent-lt:#FF8A50;
+  --line:#3A2F1E; --line2:#2C2314;
+  --r:6px; --max:1180px;
+  --fd:"Sora",Arial,sans-serif; --fb:"Archivo",Helvetica,Arial,sans-serif; --fm:"IBM Plex Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--paper);font-family:var(--fb);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit}
+svg{display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;position:relative}
+.eyebrow{font-family:var(--fm);font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-lt);display:flex;align-items:center;gap:.55rem}
+.eyebrow .burst{width:13px;height:13px}
+h1,h2,h3{font-family:var(--fd);line-height:1.04;font-weight:800;letter-spacing:-.015em}
+.burst{fill:var(--accent);flex:none}
+.btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--accent);color:#fff;font-weight:700;font-size:.95rem;padding:1rem 1.7rem;border-radius:var(--r);text-decoration:none;border:2px solid var(--accent);transition:background .25s,transform .25s}
+.btn:hover{background:var(--accent-d);border-color:var(--accent-d);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--paper);border-color:var(--paper)}
+.btn.ghost:hover{background:var(--paper);color:var(--ink,#14100B)}
+:focus-visible{outline:3px solid var(--accent-lt);outline-offset:3px}
+
+/* 3D stage — fixed behind everything, takes no clicks */
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+body.gl-on #gl{opacity:1}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 52%,rgba(8,6,3,.55) 100%)}
+main,footer.site{position:relative;z-index:2}
+
+/* header */
+header.site{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(20,16,11,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line2)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:1.2rem}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--fd);font-weight:800;font-size:1.32rem;letter-spacing:-.01em;color:var(--paper)}
+.logo .burst{width:30px;height:30px;transition:transform .6s cubic-bezier(.2,.9,.3,1.4)}
+.logo:hover .burst{transform:rotate(45deg)}
+.logo em{font-style:normal;color:var(--accent-lt)}
+.nav nav{display:flex;gap:1.9rem}
+.nav nav a{text-decoration:none;font-family:var(--fm);font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.3rem 0;position:relative;color:var(--on-dark)}
+.nav nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .3s}
+.nav nav a:hover::after{width:100%}
+.nav .mail{font-family:var(--fm);font-size:.82rem;text-decoration:none;border-bottom:1px solid var(--accent);color:var(--on-dark)}
+.nav .btn{padding:.62rem 1.15rem}
+@media(max-width:1020px){.nav .mail{display:none}}
+@media(max-width:820px){.nav nav{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.12fr .88fr;gap:3rem;align-items:center;min-height:100svh;padding-top:8.2rem;padding-bottom:4.6rem}
+.hero h1{font-size:clamp(2.7rem,6.4vw,4.9rem);text-shadow:0 2px 34px rgba(20,16,11,.65)}
+.hero h1 .cyc{color:var(--accent-lt);display:inline-block;transition:opacity .35s,transform .35s}
+.hero h1 .cyc.out{opacity:0;transform:rotate(-3deg) translateY(8px)}
+.hero p.lede{margin:1.5rem 0 2.1rem;font-size:1.17rem;color:var(--on-dark);max-width:36ch;text-shadow:0 1px 18px rgba(20,16,11,.8)}
+.hero p.lede b{color:#fff}
+.hero .cta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.hero .note{font-family:var(--fm);font-size:.8rem;color:var(--muted);margin-top:1.3rem;letter-spacing:.06em}
+/* static fallback art — the designed hero when WebGL is off, still loading, or the CDN failed */
+.hero-art{display:flex;align-items:center;justify-content:center;position:relative;min-height:300px}
+.fallback-hero{position:relative;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
+body.gl-on .fallback-hero{opacity:0;visibility:hidden}
+.fallback-hero .big-burst{width:min(340px,78vw);height:auto;fill:var(--accent);animation:burst-spin 46s linear infinite;filter:drop-shadow(0 18px 44px rgba(228,87,29,.28))}
+.fallback-hero .ring{position:absolute;width:min(420px,92vw);aspect-ratio:1;border:1px dashed var(--stone);border-radius:50%;opacity:.55}
+.fallback-hero .tag{position:absolute;font-family:var(--fm);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;background:var(--paper);color:var(--ground);padding:.45rem .8rem;border-radius:var(--r);font-weight:600}
+.fallback-hero .tag.t1{top:4%;left:0}
+.fallback-hero .tag.t2{bottom:6%;right:0}
+@keyframes burst-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(max-width:900px){
+  .hero .wrap{grid-template-columns:1fr;min-height:0;padding-top:7rem;gap:1.2rem}
+  .hero-art{order:-1;min-height:190px;justify-content:flex-start}
+  .fallback-hero .big-burst{width:148px}
+  .fallback-hero .ring{width:188px}
+  .fallback-hero .tag{display:none}
+}
+
+/* marquee */
+.marquee{border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);background:rgba(14,11,6,.72);color:var(--on-dark);overflow:hidden;padding:.85rem 0;position:relative;z-index:2}
+.marquee .track{display:flex;gap:2.6rem;white-space:nowrap;font-family:var(--fm);font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;width:max-content;animation:slide 30s linear infinite}
+.marquee .track i{color:var(--accent-lt);font-style:normal}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:6rem 0}
+.sec-head{margin-bottom:2.6rem;max-width:720px}
+.sec-head h2{font-size:clamp(2rem,4.2vw,3.1rem);margin-top:.7rem;text-shadow:0 2px 26px rgba(20,16,11,.6)}
+.sec-head p{color:var(--muted);margin-top:.9rem;max-width:52ch}
+
+/* services rows */
+.svc{border-top:2px solid var(--paper)}
+.svc a.row{display:grid;grid-template-columns:70px 1fr auto;gap:1.4rem;align-items:center;padding:1.6rem .4rem;border-bottom:1px solid var(--line);text-decoration:none;transition:background .25s,padding-left .25s;background:rgba(20,16,11,.45)}
+.svc a.row:hover{background:rgba(27,20,9,.92);padding-left:1rem}
+.svc .no{font-family:var(--fm);color:var(--accent-lt);font-weight:600;font-size:.9rem}
+.svc .name{font-family:var(--fd);font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:700;display:block}
+.svc .desc{color:var(--muted);font-size:.96rem;display:block;max-width:56ch}
+.svc .arr{font-family:var(--fd);font-size:1.5rem;color:var(--accent-lt);transition:transform .25s}
+.svc a.row:hover .arr{transform:translateX(6px)}
+@media(max-width:640px){.svc a.row{grid-template-columns:1fr auto}.svc .no{display:none}}
+/* capabilities */
+.caps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:2.6rem}
+.cap{border:1px solid var(--line);border-radius:var(--r);padding:1.4rem;background:rgba(27,20,9,.88)}
+.cap .ref{font-family:var(--fm);font-size:.72rem;font-weight:600;letter-spacing:.18em;color:var(--accent-lt)}
+.cap h3{font-size:1.12rem;margin:.55rem 0 .4rem}
+.cap p{font-size:.92rem;color:var(--muted)}
+@media(max-width:900px){.caps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.caps{grid-template-columns:1fr}}
+
+/* build-first process band */
+.band{background:rgba(23,18,9,.9);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.band h2{font-size:clamp(2.1rem,4.6vw,3.4rem);max-width:15ch}
+.band h2 em{font-style:normal;color:var(--accent-lt)}
+.band p.lede{color:var(--muted);margin:1.1rem 0 2.2rem;max-width:56ch}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.step{border:1px solid var(--line);border-radius:var(--r);padding:1.3rem;background:rgba(20,16,11,.5)}
+.step b{font-family:var(--fm);color:var(--accent-lt);font-size:.85rem;display:flex;align-items:center;gap:.5rem}
+.step b .burst{width:12px;height:12px}
+.step h3{font-size:1.12rem;margin:.6rem 0 .35rem}
+.step p{font-size:.92rem;color:var(--muted)}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* work cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{border:2px solid var(--line);border-radius:var(--r);padding:1.7rem;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;transition:transform .3s,box-shadow .3s,border-color .3s;background:var(--panel2)}
+.card:hover{transform:translateY(-5px);box-shadow:8px 8px 0 rgba(0,0,0,.4);border-color:var(--accent)}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.card .trade{font-family:var(--fm);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lt)}
+.card h3{font-size:1.65rem;margin:.5rem 0 .4rem}
+.card p{color:var(--muted);font-size:.95rem}
+.card .go{font-family:var(--fm);font-size:.8rem;font-weight:600;margin-top:1.2rem;color:var(--paper)}
+.card.wide{grid-column:1/-1}
+.card.featured{background:var(--accent);border-color:var(--accent);color:#fff}
+.card.featured .trade{color:#FFE3CF}
+.card.featured p{color:#FFE9D9}
+.card.featured .go{color:#fff}
+.card.featured:hover{border-color:#fff}
+.mini-motif{height:12px;border-radius:6px;margin-top:1.1rem}
+.motif-pole{background:repeating-linear-gradient(48deg,#B3202A 0 8px,#FBF7EE 8px 16px,#2A2016 16px 24px,#FBF7EE 24px 32px)}
+.motif-gauge{background:repeating-linear-gradient(90deg,var(--paper) 0 2px,transparent 2px 26px),linear-gradient(#2C2314,#2C2314)}
+.motif-bake{background:repeating-linear-gradient(0deg,#2C2314 0 10px,#241B10 10px 20px)}
+.motif-shine{background:linear-gradient(180deg,#241B10 0 46%,#F4F1EA 50%,#241B10 54% 100%)}
+.work-more{margin-top:1.6rem}
+@media(max-width:760px){.cards{grid-template-columns:1fr}}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.2rem;align-items:start}
+.contact-grid h2{font-size:clamp(2.1rem,4.6vw,3.4rem);text-shadow:0 2px 26px rgba(20,16,11,.6)}
+.contact-grid .intro{color:var(--muted);margin:1rem 0 1.6rem;max-width:44ch}
+.big-mail{font-family:var(--fm);font-size:clamp(1.05rem,2.6vw,1.4rem);font-weight:600;color:var(--paper);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:.15rem;word-break:break-all}
+.big-mail:hover{color:var(--accent-lt)}
+.next{margin-top:2.4rem;display:grid;gap:1.1rem}
+.next div{display:grid;grid-template-columns:44px 1fr;gap:1rem}
+.next .n{font-family:var(--fm);color:var(--accent-lt);font-weight:600;font-size:1.05rem}
+.next h3{font-size:1.02rem;margin-bottom:.2rem}
+.next p{font-size:.93rem;color:var(--muted)}
+.promise{margin-top:2.2rem;font-family:var(--fm);font-size:.78rem;letter-spacing:.08em;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r);padding:1rem 1.1rem;background:rgba(20,16,11,.5)}
+.form-card{background:rgba(27,20,9,.94);border:1px solid var(--line);border-radius:var(--r);padding:2rem}
+.form-card h3{font-size:1.3rem;margin-bottom:1.3rem}
+.field{margin-bottom:1.15rem}
+.field label{display:block;font-family:var(--fm);font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-lt);margin-bottom:.45rem}
+.field input,.field select,.field textarea{width:100%;background:var(--ground2);border:1px solid var(--line);border-radius:var(--r);color:var(--paper);font-family:var(--fb);font-size:1rem;padding:.8rem .9rem}
+.field textarea{min-height:110px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(228,87,29,.25)}
+.field .err{display:none;color:var(--accent-lt);font-size:.85rem;margin-top:.4rem}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid select{border-color:var(--accent-lt)}
+.form-card .alt{margin-top:1.1rem;font-size:.9rem;color:var(--muted)}
+.form-card .alt a{color:var(--paper);border-bottom:1px solid var(--accent);text-decoration:none}
+.form-ok{border:1px solid var(--accent);border-radius:var(--r);padding:1.4rem;background:rgba(228,87,29,.08)}
+.form-ok h3{color:var(--accent-lt);margin-bottom:.5rem}
+.form-ok p{color:var(--on-dark);font-size:.95rem}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+/* footer */
+footer.site{background:var(--ground2);border-top:1px solid var(--line2);padding:3.8rem 0 2.2rem}
+footer.site .fname{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,7.4vw,5rem);line-height:.98;letter-spacing:-.02em;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+footer.site .fname .burst{width:.62em;height:.62em}
+footer.site .fname em{font-style:normal;color:var(--accent-lt)}
+footer.site .cols{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem;margin-top:2.4rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+footer.site h4{font-family:var(--fm);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-lt);margin-bottom:.9rem}
+footer.site ul{list-style:none}
+footer.site li{margin:.45rem 0}
+footer.site a{text-decoration:none;color:var(--on-dark)}
+footer.site a:hover{color:var(--accent-lt)}
+footer.site p,footer.site li{color:var(--muted);font-size:.95rem}
+footer.site .row{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:1.3rem;border-top:1px solid var(--line);font-family:var(--fm);font-size:.78rem;color:var(--muted)}
+@media(max-width:760px){footer.site .cols{grid-template-columns:1fr}}
+
+/* reveal — pivot: swing in slightly rotated, then settle */
+.rv{opacity:0;transform:rotate(-1.4deg) translateY(16px);transform-origin:left bottom;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.9,.3,1.15)}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Pivotal Nova — home">
+      <svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg>
+      Pivotal <em>Nova</em>
+    </a>
+    <nav aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="mail" href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a>
+    <a class="btn" href="#contact">Start a Project</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO — the star in space, the offer in words -->
+  <div class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Software studio · Remote-first · UK / Canada / US</p>
+        <h1>We build <span class="cyc" id="cycWord">websites</span><br>for brands that<br>want more.</h1>
+        <p class="lede">Pivotal Nova designs and builds websites, web apps and mobile apps for brands of every type — and we build your first version <b>before</b> you pay anything.</p>
+        <div class="cta">
+          <a class="btn" href="#contact">Start a Project</a>
+          <a class="btn ghost" href="#work">See the Work</a>
+        </div>
+        <p class="note">BUILD-FIRST — YOU REVIEW THE REAL THING. YOU ONLY PAY IF YOU LIKE IT.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="fallback-hero">
+          <div class="ring"></div>
+          <svg class="big-burst" viewBox="0 0 100 100"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg>
+          <span class="tag t1">Web · Apps · Mobile</span>
+          <span class="tag t2">No payment up front</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track" id="mq">
+      <span>Websites <i>✦</i></span><span>Web Apps <i>✦</i></span><span>Mobile Apps <i>✦</i></span><span>Admin Dashboards <i>✦</i></span><span>Automations <i>✦</i></span><span>Integrations <i>✦</i></span><span>SEO · AEO · GEO <i>✦</i></span>
+    </div>
+  </div>
+
+  <!-- SERVICES — the star drifts left and turns as these present -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> What we build</p>
+        <h2>Three crafts. One standard.</h2>
+        <p>Whatever your brand sells — appointments, products, food, services — there is a right tool for it. We build that tool properly: designed, engineered and ready to grow.</p>
+      </div>
+      <div class="svc rv">
+        <a class="row" href="https://paikanadham-byte.github.io/pivotal-nova/services.html#websites"><span class="no">PN—01</span><span><span class="name">Websites</span><span class="desc">Fast, beautiful sites that turn visitors into enquiries — for any brand, any trade.</span></span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="row" href="https://paikanadham-byte.github.io/pivotal-nova/services.html#webapps"><span class="no">PN—02</span><span><span class="name">Web Apps</span><span class="desc">Dashboards, booking systems, portals and internal tools that run your business.</span></span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="row" href="https://paikanadham-byte.github.io/pivotal-nova/services.html#mobile"><span class="no">PN—03</span><span><span class="name">Mobile Apps</span><span class="desc">Apps your customers carry with them — ordering, loyalty, bookings, on iOS &amp; Android.</span></span><span class="arr" aria-hidden="true">→</span></a>
+      </div>
+      <div class="caps rv">
+        <div class="cap"><span class="ref">CAP—01</span><h3>Admin dashboards</h3><p>A control room shaped around your business: bookings, orders, customers, content — see and manage everything in one place, from any device.</p></div>
+        <div class="cap"><span class="ref">CAP—02</span><h3>Automations</h3><p>Confirmations, reminders, follow-ups and reports that send themselves. The repetitive work disappears; you just see it done.</p></div>
+        <div class="cap"><span class="ref">CAP—03</span><h3>Integrations</h3><p>Payments, appointments and bookings, delivery, maps, email and the tools you already use — connected so nothing is typed twice.</p></div>
+        <div class="cap"><span class="ref">CAP—04</span><h3>SEO · AEO · GEO</h3><p>Built to be found: on Google, in local results, and in the answers AI assistants give. Structured, fast and written the way people actually search.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS — the build-first model -->
+  <section class="band" id="process">
+    <div class="wrap">
+      <p class="eyebrow rv"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> The build-first model</p>
+      <h2 class="rv">We build it first. <em>You pay only if you love it.</em></h2>
+      <p class="lede rv">No deposits on promises. No paying for mockups you have to imagine. We build a working first version of your website or app, you review the real thing, and only then decide. If it is not right for you, you walk away at no cost.</p>
+      <div class="steps rv">
+        <div class="step"><b><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> 01</b><h3>Discover</h3><p>A short call about your brand, your customers and what the site or app has to do.</p></div>
+        <div class="step"><b><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> 02</b><h3>First build</h3><p>We build a working first version — real pages, real content, not a picture of one.</p></div>
+        <div class="step"><b><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> 03</b><h3>Review &amp; refine</h3><p>You review it like a customer would. We make your changes. You decide — pay, or walk away free.</p></div>
+        <div class="step"><b><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> 04</b><h3>Launch &amp; grow</h3><p>Hosting set up, your dashboard handed over, and SEO, AEO &amp; GEO in place so customers find you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK — live demos, one click away -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Selected work</p>
+        <h2>Proof, not promises</h2>
+        <p>Concept builds designed and built by this studio, trade by trade — the same standard, process and finish your brand would get. Every card opens the live demo. No stock templates anywhere.</p>
+      </div>
+      <div class="cards rv">
+        <a class="card featured wide" href="https://paikanadham-byte.github.io/client-demos/northgate-barbers/" target="_blank" rel="noopener">
+          <div><div class="top"><span class="trade">Featured · Barbershop · Manchester</span><span class="trade">5-page build</span></div>
+          <h3>Northgate Barbers</h3>
+          <p>The full five-page build, designed around the barber pole: a home page that passes the five-second test, a services page run as a price ledger, captioned work, an about page where reviews do the selling, and online booking throughout.</p>
+          <div class="mini-motif motif-pole" aria-hidden="true"></div></div>
+          <span class="go">View the live demo →</span>
+        </a>
+        <a class="card" href="https://paikanadham-byte.github.io/client-demos/plumbing-heating/" target="_blank" rel="noopener">
+          <div><span class="trade">Plumbing &amp; Heating · Bristol</span>
+          <h3>Hartley Heating &amp; Plumbing</h3>
+          <p>An engineer's spec-sheet brought to life: services tabled like parts, a boiler-gauge hero, and a quote form that takes under a minute.</p>
+          <div class="mini-motif motif-gauge" aria-hidden="true"></div></div>
+          <span class="go">View the live demo →</span>
+        </a>
+        <a class="card" href="https://paikanadham-byte.github.io/client-demos/cafe-bakery/" target="_blank" rel="noopener">
+          <div><span class="trade">Café &amp; Bakery · Bath</span>
+          <h3>Flour &amp; Fern Café</h3>
+          <p>A live "from the oven today" board that reads the real clock and strikes through finished bakes, plus tabbed menus and cake orders.</p>
+          <div class="mini-motif motif-bake" aria-hidden="true"></div></div>
+          <span class="go">View the live demo →</span>
+        </a>
+        <a class="card wide" href="https://paikanadham-byte.github.io/client-demos/auto-detailing/" target="_blank" rel="noopener">
+          <div><span class="trade">Auto Detailing · Leeds</span>
+          <h3>MirrorFinish Detailing</h3>
+          <p>Split at the reflection line: dull above, mirror below. A draggable shine slider and packages written as a spec sheet.</p>
+          <div class="mini-motif motif-shine" aria-hidden="true"></div></div>
+          <span class="go">View the live demo →</span>
+        </a>
+      </div>
+      <p class="work-more rv"><a class="btn ghost" href="https://paikanadham-byte.github.io/pivotal-nova/work.html">See the full portfolio →</a></p>
+    </div>
+  </section>
+
+  <!-- CONTACT — the star comes home behind the ask -->
+  <section id="contact" style="padding-top:2rem">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="rv">
+          <p class="eyebrow"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Start a project</p>
+          <h2>Tell us what you're building.</h2>
+          <p class="intro">Four fields. Two minutes. Then the next thing you receive from us is a reply — and after a short call, a working first build you can judge for yourself.</p>
+          <p style="color:var(--muted);margin-bottom:.5rem">Prefer email?</p>
+          <a class="big-mail" href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a>
+          <div class="next">
+            <div><span class="n">01</span><span><h3>We reply within one working day</h3><p>A real reply, with any quick questions and times for a short discover call in your time zone.</p></span></div>
+            <div><span class="n">02</span><span><h3>The discover call</h3><p>Thirty minutes on your brand, your customers, and the one job the build has to do.</p></span></div>
+            <div><span class="n">03</span><span><h3>Your first build</h3><p>A working first version on a link you can open anywhere. Review it, ask for changes, then decide. Pay only if you love it.</p></span></div>
+          </div>
+          <p class="promise">THE BUILD-FIRST PROMISE — your first version costs nothing. If it isn't right, you walk away at no cost.</p>
+        </div>
+        <div class="form-card rv">
+          <form id="enquiry" novalidate>
+            <h3>Your project brief</h3>
+            <div class="field" id="f-name">
+              <label for="in-name">Your name</label>
+              <input id="in-name" name="name" type="text" autocomplete="name" required>
+              <p class="err">Please add your name.</p>
+            </div>
+            <div class="field" id="f-email">
+              <label for="in-email">Your email</label>
+              <input id="in-email" name="email" type="email" autocomplete="email" required>
+              <p class="err">Please add a valid email so we can reply.</p>
+            </div>
+            <div class="field" id="f-type">
+              <label for="in-type">Project type</label>
+              <select id="in-type" name="type" required>
+                <option value="">Choose one…</option>
+                <option>Website</option>
+                <option>Web App</option>
+                <option>Mobile App</option>
+                <option>Not sure yet</option>
+              </select>
+              <p class="err">Please choose a project type — "Not sure yet" is a perfectly good answer.</p>
+            </div>
+            <div class="field">
+              <label for="in-details">Project details</label>
+              <textarea id="in-details" name="details" placeholder="A sentence or two helps us prepare — what is the project?"></textarea>
+            </div>
+            <button class="btn" type="submit" style="width:100%;justify-content:center">Send My Project Brief</button>
+            <p class="alt">Rather write your own email? <a href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a></p>
+          </form>
+          <div class="form-ok" id="formOk" hidden>
+            <h3>Project brief received.</h3>
+            <p>Thanks — we'll reply within one working day to arrange your discover call. Your first build comes after that, free.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="fname"><svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50.0,1.0 56.5,34.3 84.6,15.4 65.7,43.5 99.0,50.0 65.7,56.5 84.6,84.6 56.5,65.7 50.0,99.0 43.5,65.7 15.4,84.6 34.3,56.5 1.0,50.0 34.3,43.5 15.4,15.4 43.5,34.3"/></svg> Pivotal <em>Nova</em></p>
+    <div class="cols">
+      <div>
+        <h4>The studio</h4>
+        <p>A software development studio building websites, web apps and mobile apps for brands of every type — build first, pay only if you love it.</p>
+      </div>
+      <div>
+        <h4>Sections</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#contact">Start a Project</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:paikanadham@gmail.com">paikanadham@gmail.com</a></li>
+          <li>Remote-first studio</li>
+          <li>UK · Canada · US · Worldwide</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <span>© <span class="yr">2026</span> Pivotal Nova</span>
+      <span>Websites · Web Apps · Mobile Apps</span>
+      <span>Built first. Paid for only if you love it.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* DOM behaviours — deliberately independent of the 3D libraries:
+   if Three.js or GSAP fail to load, everything here still works. */
+document.querySelectorAll('.yr').forEach(function(el){el.textContent=new Date().getFullYear();});
+var mq=document.getElementById('mq'); if(mq){mq.innerHTML+=mq.innerHTML;}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+/* Signature beat — the service word pivots; the 3D star answers with a 45° step.
+   The scene listens for 'nova:step'; if WebGL never starts, the word still cycles. */
+(function(){
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var w=document.getElementById('cycWord');
+  if(!w||reduced) return;
+  var words=['websites','web apps','mobile apps'], i=0;
+  setInterval(function(){
+    w.classList.add('out');
+    setTimeout(function(){
+      i=(i+1)%words.length; w.textContent=words[i]; w.classList.remove('out');
+      window.dispatchEvent(new CustomEvent('nova:step'));
+    },360);
+  },2800);
+})();
+
+/* Enquiry form — front-end only: validation + success state, same pattern as the 2D site */
+(function(){
+  var form=document.getElementById('enquiry'); if(!form) return;
+  form.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var ok=true;
+    function check(fieldId,inputId,test){
+      var f=document.getElementById(fieldId), inp=document.getElementById(inputId);
+      var good=test(inp.value.trim());
+      f.classList.toggle('invalid',!good);
+      if(!good) ok=false;
+    }
+    check('f-name','in-name',function(v){return v.length>0;});
+    check('f-email','in-email',function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);});
+    check('f-type','in-type',function(v){return v.length>0;});
+    if(!ok) return;
+    form.hidden=true;
+    document.getElementById('formOk').hidden=false;
+  });
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ============================================================================
+   PIVOTAL NOVA 3D — scene module.
+   One requestAnimationFrame drives the renderer AND all choreography.
+   GSAP ScrollTrigger (loaded as a classic script ahead of this module) tweens
+   a plain `choreo` object; the loop applies it. If the import above fails,
+   this module never runs, the DOM scripts still work, and the page keeps its
+   designed static SVG hero — that is the CDN-failure fallback, by structure.
+   ============================================================================ */
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
+
+/* Word-cycle sync: every headline change asks the star for one 45° step */
+let stepTarget = 0;
+window.addEventListener('nova:step', () => { stepTarget += Math.PI / 4; });
+
+/* ---------- Quality tiers from device signals ---------- */
+function detectTier() {
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  const cores = navigator.hardwareConcurrency || 4;
+  const mem = navigator.deviceMemory || 4;
+  const small = Math.min(window.innerWidth, window.innerHeight) < 480;
+  if (cores <= 2 || mem <= 2 || (coarse && small && cores <= 4)) return 'low';
+  if (coarse || window.innerWidth < 900 || cores <= 4) return 'medium';
+  return 'high';
+}
+const TIER = detectTier();
+const DPR_CAP = TIER === 'high' ? 2 : TIER === 'medium' ? 1.5 : 1;
+const PARTICLE_COUNT = TIER === 'high' ? 1500 : TIER === 'medium' ? 400 : 0;
+
+/* ---------- Responsive composition (decided at load) ---------- */
+const MOBILE = window.innerWidth < 900;
+const HERO = {
+  x: MOBILE ? 0 : 2.35,
+  y: MOBILE ? 1.3 : 0.05,
+  s: MOBILE ? 0.65 : 1.0,
+  camZ: MOBILE ? 11.5 : 9.0
+};
+
+/* Scroll choreography state; starts in the hero pose */
+const choreo = { x: HERO.x, y: HERO.y, s: HERO.s, camZ: HERO.camZ, pivotZ: 0, pivotY: -0.18, align: 0, breathe: 0 };
+
+/* Lazy init: WebGL starts after first paint, never blocking content */
+let started = false;
+function start() {
+  if (started) return;
+  started = true;
+  try { init(); } catch (err) { /* WebGL unavailable — the static hero stays */ }
+}
+if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1500 });
+else window.addEventListener('load', () => setTimeout(start, 60));
+
+function init() {
+  const canvas = document.getElementById('gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: TIER !== 'low', alpha: false, powerPreference: 'high-performance' });
+  if (!renderer.getContext()) return;
+  let pixelRatio = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+  renderer.setPixelRatio(pixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; /* filmic depth; brand hex compensated below */
+  renderer.toneMappingExposure = 1.15;
+  renderer.shadowMap.enabled = false;                 /* budget decision: no shadow maps on any tier */
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x14100B);
+  scene.fog = new THREE.FogExp2(0x14100B, 0.026);
+
+  const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 120);
+  camera.position.set(0, 0.35, choreo.camZ);
+
+  /* Procedural environment for PBR reflections — a tiny room of warm emissive
+     panels through PMREM. Core Three.js only; no addon imports to fail. */
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const envScene = new THREE.Scene();
+  envScene.add(new THREE.Mesh(
+    new THREE.BoxGeometry(30, 30, 30),
+    new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x14100B })
+  ));
+  function panel(color, intensity, w, h, pos) {
+    const m = new THREE.Mesh(
+      new THREE.PlaneGeometry(w, h),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(intensity) })
+    );
+    m.position.copy(pos); m.lookAt(0, 0, 0); envScene.add(m);
+  }
+  panel(0xFFF1DD, 6, 10, 7, new THREE.Vector3(6, 8, 6));    /* warm key */
+  panel(0xE4571D, 3, 12, 5, new THREE.Vector3(-9, -2, 4));  /* orange fill */
+  panel(0xF4F1EA, 4, 9, 4, new THREE.Vector3(-4, 6, -9));   /* paper rim */
+  scene.environment = pmrem.fromScene(envScene, 0.06).texture;
+  pmrem.dispose();
+
+  /* Lighting rig — three-point, no shadow casters */
+  scene.add(new THREE.HemisphereLight(0xF4F1EA, 0x14100B, 0.55));
+  const key = new THREE.DirectionalLight(0xFFF1DD, 1.7); key.position.set(5, 6, 7); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xE4571D, 0.55); fill.position.set(-6, -2, 4); scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xF4F1EA, 1.15); rim.position.set(-3, 4, -6); scene.add(rim);
+
+  /* ---------- The nova star ---------- */
+  const brandOrange = new THREE.Color(0xE4571D).multiplyScalar(1.12); /* ACES compensation, noted in delivery */
+  const parGroup = new THREE.Group(); scene.add(parGroup);            /* pointer parallax */
+  const rig = new THREE.Group(); parGroup.add(rig);                   /* scroll position + scale */
+  const spinner = new THREE.Group(); rig.add(spinner);                /* z pivots: idle + steps + scroll */
+  const starSpin = new THREE.Group(); spinner.add(starSpin);          /* y turn from scroll */
+
+  const starShape = new THREE.Shape();
+  const TIPS = 8, R_OUT = 2.05, R_IN = 0.72;
+  for (let i = 0; i < TIPS * 2; i++) {
+    const r = i % 2 === 0 ? R_OUT : R_IN;
+    const a = (i / (TIPS * 2)) * Math.PI * 2 + Math.PI / 2;
+    const px = Math.cos(a) * r, py = Math.sin(a) * r;
+    if (i === 0) starShape.moveTo(px, py); else starShape.lineTo(px, py);
+  }
+  starShape.closePath();
+  const starGeo = new THREE.ExtrudeGeometry(starShape, {
+    depth: 0.5, steps: 1, bevelEnabled: true,
+    bevelThickness: 0.14, bevelSize: 0.1, bevelSegments: 3, curveSegments: 4
+  });
+  starGeo.center();
+  const star = new THREE.Mesh(starGeo, new THREE.MeshStandardMaterial({
+    color: brandOrange, metalness: 0.35, roughness: 0.3, envMapIntensity: 0.6
+  }));
+  starSpin.add(star);
+
+  /* Emissive core — the nova's heart, sitting proud of the front face */
+  const core = new THREE.Mesh(
+    new THREE.SphereGeometry(0.34, 32, 32),
+    new THREE.MeshStandardMaterial({ color: 0x2A1503, emissive: 0xFF7A33, emissiveIntensity: 2.4, roughness: 0.4, metalness: 0 })
+  );
+  core.position.z = 0.4;
+  starSpin.add(core);
+  const coreLight = new THREE.PointLight(0xFF8A3D, 8, 12, 2);
+  coreLight.position.z = 1.6;
+  starSpin.add(coreLight);
+
+  /* Two tilted orbit rings in warm paper */
+  const rings = new THREE.Group(); rig.add(rings);
+  const ring1 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.95, 0.035, 12, 140),
+    new THREE.MeshStandardMaterial({ color: 0xF4F1EA, transparent: true, opacity: 0.5, roughness: 0.5, metalness: 0.1, envMapIntensity: 0.4 })
+  );
+  const ring2 = new THREE.Mesh(
+    new THREE.TorusGeometry(3.4, 0.028, 12, 160),
+    new THREE.MeshStandardMaterial({ color: 0xF4F1EA, transparent: true, opacity: 0.3, roughness: 0.5, metalness: 0.1, envMapIntensity: 0.4 })
+  );
+  ring1.rotation.set(1.12, 0.25, 0);
+  ring2.rotation.set(1.38, -0.45, 0);
+  rings.add(ring1, ring2);
+  const RING_BASE = { x1: 1.12, x2: 1.38, y2: -0.45 };
+
+  /* ---------- Warm dust: converges into place on load (the signature moment) ---------- */
+  let points = null, pScatter = null, pTarget = null, pSeed = null;
+  if (PARTICLE_COUNT > 0) {
+    const N = PARTICLE_COUNT;
+    pScatter = new Float32Array(N * 3); pTarget = new Float32Array(N * 3);
+    pSeed = new Float32Array(N);
+    const pPos = new Float32Array(N * 3);
+    const colors = new Float32Array(N * 3);
+    const cPaper = new THREE.Color(0xF4F1EA), cOrange = new THREE.Color(0xE4571D), tmp = new THREE.Color();
+    for (let i = 0; i < N; i++) {
+      const th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1), rr = 6 + Math.random() * 9;
+      pScatter[i * 3]     = rr * Math.sin(ph) * Math.cos(th);
+      pScatter[i * 3 + 1] = rr * Math.sin(ph) * Math.sin(th) * 0.7;
+      pScatter[i * 3 + 2] = rr * Math.cos(ph) * 0.5 - 2;
+      const ta = Math.random() * Math.PI * 2, tr = 0.6 + Math.pow(Math.random(), 0.7) * 3.4;
+      pTarget[i * 3]     = Math.cos(ta) * tr;
+      pTarget[i * 3 + 1] = Math.sin(ta) * tr;
+      pTarget[i * 3 + 2] = (Math.random() - 0.5) * 1.6;
+      pSeed[i] = Math.random();
+      tmp.copy(Math.random() < 0.7 ? cPaper : cOrange);
+      colors[i * 3] = tmp.r; colors[i * 3 + 1] = tmp.g; colors[i * 3 + 2] = tmp.b;
+      pPos[i * 3] = pScatter[i * 3]; pPos[i * 3 + 1] = pScatter[i * 3 + 1]; pPos[i * 3 + 2] = pScatter[i * 3 + 2];
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    points = new THREE.Points(pGeo, new THREE.PointsMaterial({
+      size: 0.06, vertexColors: true, transparent: true, opacity: 0.55,
+      depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
+    }));
+    scene.add(points);
+  }
+
+  /* ---------- Scroll map, exactly as briefed (durations = percent of scroll) ---------- */
+  const K = MOBILE
+    ? [ { x: 0, y: 1.3,  s: 0.65, camZ: 11.5, pivotZ: 0,                 pivotY: -0.18, align: 0,    breathe: 0 },
+        { x: 0, y: 1.25, s: 0.65, camZ: 11.0, pivotZ: 0.55,              pivotY: -0.05, align: 0,    breathe: 0 },
+        { x: 0, y: 0.95, s: 0.55, camZ: 11.5, pivotZ: 0.55 + Math.PI,    pivotY: 0.35,  align: 0.35, breathe: 0 },
+        { x: 0, y: 0.5,  s: 0.45, camZ: 12.0, pivotZ: 0.55 + Math.PI + 1.15, pivotY: 0.1, align: 1,  breathe: 0 },
+        { x: 0, y: 0.6,  s: 0.6,  camZ: 11.5, pivotZ: 0.55 + Math.PI + 1.75, pivotY: 0,   align: 1,  breathe: 1 } ]
+    : [ { x: 2.35, y: 0.05,  s: 1.0,  camZ: 9.0, pivotZ: 0,                 pivotY: -0.18, align: 0,    breathe: 0 },
+        { x: 2.15, y: 0.05,  s: 1.0,  camZ: 8.2, pivotZ: 0.55,              pivotY: -0.05, align: 0,    breathe: 0 },
+        { x: -2.35, y: 0,    s: 0.8,  camZ: 8.6, pivotZ: 0.55 + Math.PI,    pivotY: 0.35,  align: 0.35, breathe: 0 },
+        { x: 1.3,  y: -0.25, s: 0.62, camZ: 9.6, pivotZ: 0.55 + Math.PI + 1.15, pivotY: 0.1, align: 1,  breathe: 0 },
+        { x: 0,    y: 0.15,  s: 0.92, camZ: 9.0, pivotZ: 0.55 + Math.PI + 1.75, pivotY: 0,   align: 1,  breathe: 1 } ];
+  Object.assign(choreo, K[0]);
+
+  const gsap = window.gsap;
+  if (gsap && window.ScrollTrigger && !REDUCED) {
+    gsap.registerPlugin(window.ScrollTrigger);
+    const tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1 }
+    });
+    /* 0–25% hero · 25–55% services · 55–80% process/work · 80–100% contact */
+    tl.to(choreo, Object.assign({}, K[1], { duration: 25 }))
+      .to(choreo, Object.assign({}, K[2], { duration: 30 }))
+      .to(choreo, Object.assign({}, K[3], { duration: 25 }))
+      .to(choreo, Object.assign({}, K[4], { duration: 20 }));
+  }
+
+  /* ---------- Pointer parallax: additive only, ±5°, lerped, fine pointers ---------- */
+  let parTX = 0, parTY = 0, parX = 0, parY = 0;
+  if (FINE_POINTER && !REDUCED) {
+    window.addEventListener('pointermove', (e) => {
+      parTY = (e.clientX / window.innerWidth - 0.5) * 2 * 0.087;
+      parTX = (e.clientY / window.innerHeight - 0.5) * 2 * -0.087;
+    }, { passive: true });
+  }
+
+  /* ---------- Render discipline ---------- */
+  let canvasVisible = true, tabVisible = !document.hidden;
+  new IntersectionObserver((es) => { canvasVisible = es[0].isIntersecting; }, { threshold: 0 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { tabVisible = !document.hidden; });
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  /* ---------- The one loop ---------- */
+  const clock = new THREE.Clock();
+  let stepCurrent = 0, idleAngle = 0, introT = REDUCED ? 1 : 0;
+  let fpsFrames = 0, fpsTime = 0;
+
+  function applyChoreo(time) {
+    rig.position.set(choreo.x, choreo.y, 0);
+    const introScale = 0.85 + 0.15 * (1 - Math.pow(1 - Math.min(introT, 1), 3));
+    const breathe = 1 + Math.sin(time * 1.4) * 0.02 * choreo.breathe;
+    rig.scale.setScalar(Math.max(0.01, choreo.s * introScale * breathe));
+    spinner.rotation.z = choreo.pivotZ + stepCurrent + idleAngle;
+    starSpin.rotation.y = choreo.pivotY;
+    ring1.rotation.x = RING_BASE.x1 + (1.32 - RING_BASE.x1) * choreo.align;
+    ring2.rotation.x = RING_BASE.x2 + (1.32 - RING_BASE.x2) * choreo.align;
+    ring2.rotation.y = RING_BASE.y2 * (1 - choreo.align);
+    core.material.emissiveIntensity = 2.4 + Math.sin(time * 2.2) * 0.35 + choreo.breathe * 0.5;
+    camera.position.z = choreo.camZ;
+    camera.position.y = 0.35 + parX * 1.2;
+    camera.lookAt(0, 0.1, 0);
+    parGroup.rotation.y = parY;
+    parGroup.rotation.x = parX;
+  }
+
+  function tick() {
+    requestAnimationFrame(tick);
+    const dt = Math.min(clock.getDelta(), 0.05);
+    if (!tabVisible || !canvasVisible) return;
+    const time = clock.elapsedTime;
+
+    if (introT < 1) introT = Math.min(1, introT + dt / 1.9);
+    const ease = 1 - Math.pow(1 - introT, 3);
+
+    idleAngle += dt * 0.05;
+    stepCurrent += (stepTarget - stepCurrent) * Math.min(1, dt * 3.2);
+    parX += (parTX - parX) * Math.min(1, dt * 3.5);
+    parY += (parTY - parY) * Math.min(1, dt * 3.5);
+    ring1.rotation.z += dt * 0.05;
+    ring2.rotation.z -= dt * 0.035;
+
+    if (points) {
+      const pos = points.geometry.attributes.position.array;
+      for (let i = 0; i < pSeed.length; i++) {
+        const sd = pSeed[i];
+        const drift = 0.07 + sd * 0.05;
+        pos[i * 3]     = pScatter[i * 3]     + (pTarget[i * 3]     - pScatter[i * 3])     * ease + Math.sin(time * 0.25 + sd * 6.28) * drift;
+        pos[i * 3 + 1] = pScatter[i * 3 + 1] + (pTarget[i * 3 + 1] - pScatter[i * 3 + 1]) * ease + Math.cos(time * 0.21 + sd * 4.4) * drift;
+        pos[i * 3 + 2] = pScatter[i * 3 + 2] + (pTarget[i * 3 + 2] - pScatter[i * 3 + 2]) * ease + Math.sin(time * 0.18 + sd * 9.1) * drift * 0.6;
+      }
+      points.geometry.attributes.position.needsUpdate = true;
+      points.position.set(choreo.x, choreo.y, 0);
+    }
+
+    applyChoreo(time);
+    renderer.render(scene, camera);
+
+    /* Adaptive pixel ratio: if frames sag, step DPR down before dropping content */
+    fpsFrames++; fpsTime += dt;
+    if (fpsTime >= 2) {
+      const fps = fpsFrames / fpsTime;
+      if (fps < 45 && pixelRatio > 1) {
+        pixelRatio = Math.max(1, pixelRatio - 0.25);
+        renderer.setPixelRatio(pixelRatio);
+      }
+      fpsFrames = 0; fpsTime = 0;
+    }
+  }
+
+  if (REDUCED) {
+    /* One calm static frame in the hero pose — no loop, no scrub, no cycling.
+       The dust is shown already assembled around the star. */
+    if (points) {
+      const pos = points.geometry.attributes.position.array;
+      for (let i = 0; i < pTarget.length; i++) pos[i] = pTarget[i];
+      points.geometry.attributes.position.needsUpdate = true;
+      points.position.set(choreo.x, choreo.y, 0);
+    }
+    applyChoreo(0);
+    renderer.render(scene, camera);
+    document.body.classList.add('gl-on');
+  } else {
+    document.body.classList.add('gl-on');
+    tick();
+  }
+}
+</script>
+</body>
+</html>
