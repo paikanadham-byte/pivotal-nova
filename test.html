@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PN3D Diagnostic</title>
+<style>body{background:#14100B;color:#F4F1EA;font-family:monospace;padding:24px}pre{white-space:pre-wrap;font-size:15px;line-height:1.7}canvas{border:1px solid #E4571D}</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<h1>Pivotal Nova 3D — staged diagnostic</h1>
+<pre id="log">S0: page loaded, waiting for module…</pre>
+<canvas id="gl" width="480" height="360"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module">
+const logEl = document.getElementById('log');
+function log(m){ logEl.textContent += '\n' + m; }
+window.addEventListener('error', e => log('WINDOW ERROR: ' + (e.message || e.type)));
+try {
+  log('S1: module executing; gsap present = ' + (typeof window.gsap !== 'undefined') + '; ScrollTrigger present = ' + (typeof window.ScrollTrigger !== 'undefined'));
+  const THREE = await import('three');
+  log('S2: three imported, revision = ' + THREE.REVISION);
+  const canvas = document.getElementById('gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+  log('S3: renderer created; context is WebGL2 = ' + (renderer.getContext() instanceof WebGL2RenderingContext));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(480, 360, false);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x14100B);
+  const camera = new THREE.PerspectiveCamera(42, 480 / 360, 0.1, 120);
+  camera.position.set(0, 0.35, 9);
+  camera.lookAt(0, 0.1, 0);
+  try {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    envScene.add(new THREE.Mesh(new THREE.BoxGeometry(30, 30, 30), new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x14100B })));
+    const panel = (color, k, w, h, pos) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(k) })); m.position.copy(pos); m.lookAt(0, 0, 0); envScene.add(m); };
+    panel(0xFFF1DD, 6, 10, 7, new THREE.Vector3(6, 8, 6));
+    panel(0xE4571D, 3, 12, 5, new THREE.Vector3(-9, -2, 4));
+    panel(0xF4F1EA, 4, 9, 4, new THREE.Vector3(-4, 6, -9));
+    scene.environment = pmrem.fromScene(envScene, 0.06).texture;
+    pmrem.dispose();
+    log('S4: PMREM environment OK');
+  } catch (e) { log('S4: PMREM FAILED: ' + e.message); }
+  scene.add(new THREE.HemisphereLight(0xF4F1EA, 0x14100B, 0.55));
+  const key = new THREE.DirectionalLight(0xFFF1DD, 1.7); key.position.set(5, 6, 7); scene.add(key);
+  const shape = new THREE.Shape();
+  for (let i = 0; i < 16; i++) {
+    const r = i % 2 === 0 ? 2.05 : 0.72;
+    const a = (i / 16) * Math.PI * 2 + Math.PI / 2;
+    const px = Math.cos(a) * r, py = Math.sin(a) * r;
+    if (i === 0) shape.moveTo(px, py); else shape.lineTo(px, py);
+  }
+  shape.closePath();
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: 0.5, steps: 1, bevelEnabled: true, bevelThickness: 0.14, bevelSize: 0.1, bevelSegments: 3, curveSegments: 4 });
+  geo.center();
+  const star = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: new THREE.Color(0xE4571D).multiplyScalar(1.12), metalness: 0.35, roughness: 0.3, envMapIntensity: 0.6 }));
+  star.position.set(0, 0.1, 0);
+  scene.add(star);
+  log('S5: star mesh built and added');
+  renderer.render(scene, camera);
+  log('S6: first render done; draw calls = ' + renderer.info.render.calls + ', triangles = ' + renderer.info.render.triangles);
+  const gl = renderer.getContext();
+  const buf = new Uint8Array(4);
+  gl.readPixels(240, 180, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+  log('S7: centre pixel RGBA = ' + buf[0] + ',' + buf[1] + ',' + buf[2] + ',' + buf[3] + ' (background would be ~20,16,11)');
+  let frames = 0;
+  (function anim(){ requestAnimationFrame(anim); star.rotation.z += 0.01; renderer.render(scene, camera); if (++frames === 30) log('S8: 30 frames rendered OK — scene is LIVE'); })();
+} catch (e) {
+  log('FATAL: ' + (e && e.message ? e.message : e));
+}
+</script>
+</body>
+</html>
